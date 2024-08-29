@@ -25,8 +25,22 @@ nav a:hover {
     border-radius: 5px;
 }
 
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
 #container {
     height: 200px;
+    border: 10px;
     display: flex;
     align-items: flex-end;
+
+    width: 1000px;
+    border: 5px;
+    border-top: 300px;
+    border-style:double;
+    border-color: white;
 }
