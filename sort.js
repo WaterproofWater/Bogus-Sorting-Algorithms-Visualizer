@@ -1,17 +1,23 @@
 const arr_size = 3; // Maybe cap at 100 (slider)
 const arr = [];
-var copyArr = [];
+let copyArr = [];
+
+// Sleep logic
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // Array creation logic
-for (let i = 0; i < arr_size; i++){
+for (let i = 0; i < arr_size; i++) {
     arr[i] = Math.random();
 }
 displayArr(arr);
 
 // Display array logic
-function displayArr(arr){
+function displayArr(arr) {
     container.innerHTML = "";
-    for (let i = 0; i < arr.length; i++){
+    
+    for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
         bar.style.width = (110 - arr_size) + "px";
@@ -20,7 +26,6 @@ function displayArr(arr){
         container.appendChild(bar);
     }
 }
-
 
 // Bogo Sort Logic
 function isSorted(arr) {
@@ -32,22 +37,31 @@ function isSorted(arr) {
     return true;
 }
 
-function shuffle(arr) {
+async function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+
+    displayArr(arr);
+    sortIndicator.innerHTML = "Shuffling...";
+    await sleep(200);
 }
 
-function bogoSort() {
+async function bogoSort() {
     copyArr = arr.slice();
     console.log("Bogosorting");
     console.log(copyArr);
 
     while (!isSorted(copyArr)) {
-        shuffle(copyArr);
+        await shuffle(copyArr);
     }
 
+    sortIndicator.innerHTML = "Done!";
+    await sleep(1000);
+    sortIndicator.innerHTML = "";
+
+    console.log("Sorted array:", copyArr);
     displayArr(copyArr);
     return copyArr;
 }

@@ -42,8 +42,9 @@ nav a:hover {
 
 main {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     width: 100%;
 }
 
@@ -55,5 +56,16 @@ main {
     justify-content: center;
     width: 1000px;
     border: 5px double rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+
+#sortIndicator {
+    margin-top: 50px;
+    width: 150px;
+    text-align: center;
+    color: black;
+    font-size: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0px;
     box-sizing: border-box;
 }
