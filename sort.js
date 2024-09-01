@@ -1,18 +1,26 @@
 const arr_size = 3; // Maybe cap at 100 (slider)
 const arr = [];
+var copyArr = [];
 
+// Array creation logic
 for (let i = 0; i < arr_size; i++){
     arr[i] = Math.random();
 }
+displayArr(arr);
 
-for (let i = 0; i < arr.length; i++){
-    const bar = document.createElement("div");
-    bar.style.height = arr[i] * 100 + "%";
-    bar.style.width = (110 - arr_size) + "px";
-    bar.style.backgroundColor = "black";
-    bar.style.margin = "1px";
-    container.appendChild(bar);
+// Display array logic
+function displayArr(arr){
+    container.innerHTML = "";
+    for (let i = 0; i < arr.length; i++){
+        const bar = document.createElement("div");
+        bar.style.height = arr[i] * 100 + "%";
+        bar.style.width = (110 - arr_size) + "px";
+        bar.style.backgroundColor = "black";
+        bar.style.margin = "1px";
+        container.appendChild(bar);
+    }
 }
+
 
 // Bogo Sort Logic
 function isSorted(arr) {
@@ -31,32 +39,43 @@ function shuffle(arr) {
     }
 }
 
-function bogosort(arr) {
-    while (!isSorted(arr)) {
-        shuffle(arr);
+function bogoSort() {
+    copyArr = arr.slice();
+    console.log("Bogosorting");
+    console.log(copyArr);
+
+    while (!isSorted(copyArr)) {
+        shuffle(copyArr);
     }
-    return arr;
+
+    displayArr(copyArr);
+    return copyArr;
 }
 
-// console.log("Bogo-sorted array:", bogosort(arr));
+// console.log("Bogo-sorted array:", bogoSort(arr));
 
 
 // Stalin Sort Logic
 
-function stalinSort(arr) {
-    if (arr.length === 0) {
+function stalinSort() {
+    copyArr = arr.slice();
+    console.log("Stalinsorting");
+    console.log(copyArr);
+
+    if (copyArr.length === 0) {
         return [];
     }
 
-    const result = [arr[0]]; 
+    const stalinArr = [copyArr[0]]; 
 
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] >= result[result.length - 1]) {
-            result.push(arr[i]); 
+    for (let i = 1; i < copyArr.length; i++) {
+        if (copyArr[i] >= stalinArr[stalinArr.length - 1]) {
+            stalinArr.push(copyArr[i]); 
         }
     }
 
-    return result;
+    displayArr(stalinArr);
+    return stalinArr;
 }
 
 // console.log("Stalin-sorted array:", stalinSort(arr));
@@ -73,16 +92,22 @@ function isSorted(arr) {
     return true;
 }
 
-function bozoSort(arr) {
-    while (!isSorted(arr)) {
+function bozoSort() {
+    copyArr = arr.slice();
+    console.log("Bozosorting");
+    console.log(copyArr);
+
+    while (!isSorted(copyArr)) {
         // Randomly select two indices to swap
-        const i = Math.floor(Math.random() * arr.length);
-        const j = Math.floor(Math.random() * arr.length);
+        const i = Math.floor(Math.random() * copyArr.length);
+        const j = Math.floor(Math.random() * copyArr.length);
 
         // Swap the elements at the two random indices
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
     }
-    return arr;
+
+    displayArr(copyArr);
+    return copyArr;
 }
 
 //console.log("Bozo-sorted array:", bozoSort(arr));
