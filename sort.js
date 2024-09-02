@@ -1,4 +1,4 @@
-const arr_size = 10; // Maybe cap at 100 (slider)
+const arr_size = 5; // Maybe cap at 100 (slider)
 const arr = [];
 let copyArr = [];
 
@@ -81,7 +81,7 @@ async function shuffle(arr) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 
-    displayArr(arr, "red"); // item in comparison dyed red
+    displayArr(arr, "red");
     await sleep(200);
 }
 
@@ -97,13 +97,8 @@ async function bogoSort() {
         await shuffle(copyArr);
     }
 
-    // Sorted item gets dyed green
-    displayArr(copyArr, "green");
-    sortCompletedMessage();
-    await sleep(750);
-
-    // Dyed all to black at the end
     displayArr(copyArr, "black");
+    sortCompletedMessage();
 
     enableButtons();
     return copyArr;
@@ -144,7 +139,6 @@ async function stalinSort() {
     return copyArr;
 }
 
-
 // console.log("Stalin-sorted array:", stalinSort(arr));
 
 
@@ -157,8 +151,16 @@ async function bozoSort() {
     sortIndicator.innerHTML = `Sorting...`;
 
     while (!isSorted(copyArr)) {
-        const i = Math.floor(Math.random() * copyArr.length);
-        const j = Math.floor(Math.random() * copyArr.length);
+        let i, j;
+
+        i = Math.floor(Math.random() * copyArr.length);
+
+        do {
+            j = Math.floor(Math.random() * copyArr.length);
+        } while (i === j);
+
+        displayBar(copyArr, i, j);
+        await sleep(200); 
 
         [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
 
@@ -168,10 +170,8 @@ async function bozoSort() {
 
     sortCompletedMessage();
     enableButtons();
-    // displayArr(copyArr);
     return copyArr;
 }
-
 
 //console.log("Bozo-sorted array:", bozoSort(arr));
 
