@@ -1,4 +1,4 @@
-const arr_size = 5; // Maybe cap at 100 (slider)
+const arr_size = 10; // Maybe cap at 100 (slider)
 const arr = [];
 let copyArr = [];
 
@@ -29,18 +29,38 @@ async function sortCompletedMessage() {
 for (let i = 0; i < arr_size; i++) {
     arr[i] = Math.random();
 }
-displayArr(arr);
+displayArr(arr, "black");
 
 // Display array logic
-function displayArr(arr) {
+function displayArr(arr, colour) {
     container.innerHTML = "";
 
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
         bar.style.width = (110 - arr_size) + "px";
-        bar.style.backgroundColor = "black";
+        bar.style.backgroundColor = colour;
         bar.style.margin = "1px";
+        container.appendChild(bar);
+    }
+}
+
+// Display bar logic
+function displayBar(arr, index1 = null, index2 = null) {
+    container.innerHTML = "";
+    for (let i = 0; i < arr.length; i++) {
+        const bar = document.createElement("div");
+        bar.style.height = arr[i] * 100 + "%";
+        bar.style.width = (110 - arr_size) + "px";
+        bar.style.margin = "1px";
+        
+        if (i === index1 || i === index2) {
+            bar.style.backgroundColor = "red"; 
+        } 
+        else {
+            bar.style.backgroundColor = "black"; 
+        }
+        
         container.appendChild(bar);
     }
 }
@@ -61,12 +81,13 @@ async function shuffle(arr) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 
-    displayArr(arr);
+    displayArr(arr, "red"); // item in comparison dyed red
     await sleep(200);
 }
 
 async function bogoSort() {
     disableButtons();
+
     copyArr = arr.slice();
     console.log("Bogosorting");
     console.log(copyArr);
@@ -76,7 +97,14 @@ async function bogoSort() {
         await shuffle(copyArr);
     }
 
-    sortCompletedMessage()
+    // Sorted item gets dyed green
+    displayArr(copyArr, "green");
+    sortCompletedMessage();
+    await sleep(750);
+
+    // Dyed all to black at the end
+    displayArr(copyArr, "black");
+
     enableButtons();
     return copyArr;
 }
@@ -98,20 +126,21 @@ async function stalinSort() {
 
     let i = 1;
     while (i < copyArr.length) {
+        displayBar(copyArr, i, i - 1);
+        await sleep(200);
+
         if (copyArr[i] < copyArr[i - 1]) {
             copyArr.splice(i, 1);
-        } 
-        else {
+        } else {
             i++;
         }
 
-        displayArr(copyArr);
+        displayArr(copyArr, "black");
         await sleep(200);
     }
 
     sortCompletedMessage();
     enableButtons();
-    // displayArr(copyArr);
     return copyArr;
 }
 
@@ -133,7 +162,7 @@ async function bozoSort() {
 
         [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
 
-        displayArr(copyArr);
+        displayArr(copyArr, "black");
         await sleep(200);
     }
 
