@@ -11,8 +11,14 @@
 
     <header>
         <nav>
-            <a href="#Size"> Array Size </a>
-            <a href="#Speed"> Sorting Speed </a>
+            <label for="arraySize"> Array Size: </label>
+            <input type="range" id="arraySize" min="1" max="50" value="25" step="1" onchange="updateArraySizeDisplay()">
+            <span id="arraySizeValue"> 25 </span>
+
+            <label for="sortSpeed"> Sorting Speed: </label>
+            <input type="range" id="sortSpeed" min="1" max="5" value="3" step="1" onchange="updateSortSpeedDisplay()">
+            <span id="sortSpeedValue"> 3 </span>
+
             <button onclick="bogoSort()">  Bogo Sort </button>
             <button onclick="stalinSort()"> Stalin Sort </button>
             <button onclick="bozoSort()"> Bozo Sort </button>
