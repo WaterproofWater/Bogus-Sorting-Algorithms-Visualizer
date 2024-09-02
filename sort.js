@@ -2,6 +2,17 @@ const arr_size = 5; // Maybe cap at 100 (slider)
 const arr = [];
 let copyArr = [];
 
+// Button toggle logic
+function disableButtons() {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.disabled = true);
+}
+
+function enableButtons() {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.disabled = false);
+}
+
 // Sleep logic
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -51,20 +62,22 @@ async function shuffle(arr) {
     }
 
     displayArr(arr);
-    sortIndicator.innerHTML = "Sorting...";
     await sleep(200);
 }
 
 async function bogoSort() {
+    disableButtons();
     copyArr = arr.slice();
     console.log("Bogosorting");
     console.log(copyArr);
+    sortIndicator.innerHTML = "Sorting...";
 
     while (!isSorted(copyArr)) {
         await shuffle(copyArr);
     }
 
     sortCompletedMessage()
+    enableButtons();
     return copyArr;
 }
 
@@ -73,9 +86,11 @@ async function bogoSort() {
 
 // Stalin Sort Logic
 async function stalinSort() {
+    disableButtons();
     copyArr = arr.slice();
     console.log("Stalinsorting");
     console.log(copyArr);
+    sortIndicator.innerHTML = `Sorting...`;
 
     if (copyArr.length === 0) {
         return [];
@@ -84,7 +99,6 @@ async function stalinSort() {
     let i = 1;
     while (i < copyArr.length) {
         if (copyArr[i] < copyArr[i - 1]) {
-            sortIndicator.innerHTML = `Sorting...`;
             copyArr.splice(i, 1);
         } 
         else {
@@ -96,6 +110,7 @@ async function stalinSort() {
     }
 
     sortCompletedMessage();
+    enableButtons();
     // displayArr(copyArr);
     return copyArr;
 }
@@ -105,33 +120,29 @@ async function stalinSort() {
 
 
 // Bozo sort Logic
-
-function isSorted(arr) {
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i - 1] > arr[i]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function bozoSort() {
+async function bozoSort() {
+    disableButtons();
     copyArr = arr.slice();
     console.log("Bozosorting");
     console.log(copyArr);
+    sortIndicator.innerHTML = `Sorting...`;
 
     while (!isSorted(copyArr)) {
-        // Randomly select two indices to swap
         const i = Math.floor(Math.random() * copyArr.length);
         const j = Math.floor(Math.random() * copyArr.length);
 
-        // Swap the elements at the two random indices
         [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
+
+        displayArr(copyArr);
+        await sleep(200);
     }
 
-    displayArr(copyArr);
+    sortCompletedMessage();
+    enableButtons();
+    // displayArr(copyArr);
     return copyArr;
 }
+
 
 //console.log("Bozo-sorted array:", bozoSort(arr));
 
