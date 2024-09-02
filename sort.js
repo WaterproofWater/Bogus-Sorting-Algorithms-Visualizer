@@ -1,10 +1,17 @@
-const arr_size = 3; // Maybe cap at 100 (slider)
+const arr_size = 5; // Maybe cap at 100 (slider)
 const arr = [];
 let copyArr = [];
 
 // Sleep logic
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Sort finished message
+async function sortCompletedMessage() {
+    sortIndicator.innerHTML = "Done!";
+    await sleep(1000);
+    sortIndicator.innerHTML = "";
 }
 
 // Array creation logic
@@ -16,7 +23,7 @@ displayArr(arr);
 // Display array logic
 function displayArr(arr) {
     container.innerHTML = "";
-    
+
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
@@ -44,7 +51,7 @@ async function shuffle(arr) {
     }
 
     displayArr(arr);
-    sortIndicator.innerHTML = "Shuffling...";
+    sortIndicator.innerHTML = "Sorting...";
     await sleep(200);
 }
 
@@ -57,12 +64,7 @@ async function bogoSort() {
         await shuffle(copyArr);
     }
 
-    sortIndicator.innerHTML = "Done!";
-    await sleep(1000);
-    sortIndicator.innerHTML = "";
-
-    console.log("Sorted array:", copyArr);
-    displayArr(copyArr);
+    sortCompletedMessage()
     return copyArr;
 }
 
@@ -70,8 +72,7 @@ async function bogoSort() {
 
 
 // Stalin Sort Logic
-
-function stalinSort() {
+async function stalinSort() {
     copyArr = arr.slice();
     console.log("Stalinsorting");
     console.log(copyArr);
@@ -80,17 +81,25 @@ function stalinSort() {
         return [];
     }
 
-    const stalinArr = [copyArr[0]]; 
-
-    for (let i = 1; i < copyArr.length; i++) {
-        if (copyArr[i] >= stalinArr[stalinArr.length - 1]) {
-            stalinArr.push(copyArr[i]); 
+    let i = 1;
+    while (i < copyArr.length) {
+        if (copyArr[i] < copyArr[i - 1]) {
+            sortIndicator.innerHTML = `Sorting...`;
+            copyArr.splice(i, 1);
+        } 
+        else {
+            i++;
         }
+
+        displayArr(copyArr);
+        await sleep(200);
     }
 
-    displayArr(stalinArr);
-    return stalinArr;
+    sortCompletedMessage();
+    // displayArr(copyArr);
+    return copyArr;
 }
+
 
 // console.log("Stalin-sorted array:", stalinSort(arr));
 
