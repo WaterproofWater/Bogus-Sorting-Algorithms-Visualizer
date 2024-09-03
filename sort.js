@@ -1,14 +1,36 @@
-const arr_size = 5; // Maybe cap at 100 (slider)
-const arr = [];
+let arrSize = 5;
+let sortingSpeed = 500; // Inverse sorting speed, full bar = faster, no bar = slower
+let arr = [];
 let copyArr = [];
+
+// Array size and sorting speed updater
+function updateArraySizeDisplay() {
+    const arraySizeSlider = document.getElementById('arraySize');
+    const arraySizeValue = document.getElementById('arraySizeValue');
+    arraySizeValue.textContent = arraySizeSlider.value;
+
+    arrSize = parseInt(arraySizeSlider.value);
+    arr = [];
+    container.innerHTML = "";
+    createArray(arrSize);
+}
+
+function updateSortSpeedDisplay() {
+    const sortSpeedSlider = document.getElementById('sortSpeed');
+    const sortSpeedValue = document.getElementById('sortSpeedValue');
+    sortSpeedValue.textContent = sortSpeedSlider.value;
+    sortingSpeed = parseInt(sortSpeedSlider.value);
+}
 
 // Button toggle logic
 function disableButtons() {
+    document.getElementById("arraySize").disabled = true;
     const buttons = document.querySelectorAll("button");
     buttons.forEach(button => button.disabled = true);
 }
 
 function enableButtons() {
+    document.getElementById("arraySize").disabled = false;
     const buttons = document.querySelectorAll("button");
     buttons.forEach(button => button.disabled = false);
 }
@@ -26,10 +48,12 @@ async function sortCompletedMessage() {
 }
 
 // Array creation logic
-for (let i = 0; i < arr_size; i++) {
-    arr[i] = Math.random();
+function createArray(arraySize) {
+    for (let i = 0; i < arraySize; i++) {
+        arr[i] = Math.random();
+    }
+    displayArr(arr, "black");
 }
-displayArr(arr, "black");
 
 // Display array logic
 function displayArr(arr, colour) {
@@ -38,7 +62,7 @@ function displayArr(arr, colour) {
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
-        bar.style.width = (110 - arr_size) + "px";
+        bar.style.width = (110 - arrSize) + "px";
         bar.style.backgroundColor = colour;
         bar.style.margin = "1px";
         container.appendChild(bar);
@@ -51,7 +75,7 @@ function displayBar(arr, index1 = null, index2 = null) {
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
-        bar.style.width = (110 - arr_size) + "px";
+        bar.style.width = (110 - arrSize) + "px";
         bar.style.margin = "1px";
         
         if (i === index1 || i === index2) {
@@ -82,7 +106,7 @@ async function shuffle(arr) {
     }
 
     displayArr(arr, "red");
-    await sleep(200);
+    await sleep(sortingSpeed);
 }
 
 async function bogoSort() {
@@ -122,7 +146,7 @@ async function stalinSort() {
     let i = 1;
     while (i < copyArr.length) {
         displayBar(copyArr, i, i - 1);
-        await sleep(200);
+        await sleep(sortingSpeed);
 
         if (copyArr[i] < copyArr[i - 1]) {
             copyArr.splice(i, 1);
@@ -131,7 +155,7 @@ async function stalinSort() {
         }
 
         displayArr(copyArr, "black");
-        await sleep(200);
+        await sleep(sortingSpeed);
     }
 
     sortCompletedMessage();
@@ -160,12 +184,12 @@ async function bozoSort() {
         } while (i === j);
 
         displayBar(copyArr, i, j);
-        await sleep(200); 
+        await sleep(sortingSpeed); 
 
         [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
 
         displayArr(copyArr, "black");
-        await sleep(200);
+        await sleep(sortingSpeed);
     }
 
     sortCompletedMessage();
@@ -176,4 +200,4 @@ async function bozoSort() {
 //console.log("Bozo-sorted array:", bozoSort(arr));
 
 
-
+createArray(arrSize);
