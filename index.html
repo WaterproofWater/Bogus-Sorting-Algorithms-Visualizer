@@ -12,14 +12,14 @@
     <header>
         <nav>
             <label for="arraySize"> Array Size: </label>
-            <input type="range" id="arraySize" min="1" max="10" value="5" step="1" onchange="updateArraySizeDisplay()">
-            <span id="arraySizeValue"> 5 </span>
-
-            <label for="sortSpeed"> Sorting Speed: </label>
-            <input type="range" id="sortSpeed" min="100" max="1000" value="500" step="100" onchange="updateSortSpeedDisplay()">
-            <span id="sortSpeedValue"> 500 </span>
-
-            <button onclick="bogoSort()">  Bogo Sort </button>
+            <input type="range" id="arraySize" min="1" max="10" value="5" step="1">
+            <span id="arraySizeValue" class="slider-value-box"> 5 </span> 
+    
+            <label for="sortSpeed"> Sorting Speed (ms): </label>
+            <input type="range" id="sortSpeed" min="100" max="1000" value="500" step="100">
+            <span id="sortSpeedValue" class="slider-value-box"> 500 </span>
+    
+            <button onclick="bogoSort()"> Bogo Sort </button>
             <button onclick="stalinSort()"> Stalin Sort </button>
             <button onclick="bozoSort()"> Bozo Sort </button>
         </nav>

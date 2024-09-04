@@ -1,9 +1,12 @@
 let arrSize = 5;
-let sortingSpeed = 500; // Inverse sorting speed, full bar = faster, no bar = slower
+let sortingSpeed = 500;
 let arr = [];
 let copyArr = [];
 
 // Array size and sorting speed updater
+document.getElementById('arraySize').addEventListener('input', updateArraySizeDisplay);
+document.getElementById('sortSpeed').addEventListener('input', updateSortSpeedDisplay);
+
 function updateArraySizeDisplay() {
     const arraySizeSlider = document.getElementById('arraySize');
     const arraySizeValue = document.getElementById('arraySizeValue');
@@ -12,6 +15,7 @@ function updateArraySizeDisplay() {
     arrSize = parseInt(arraySizeSlider.value);
     arr = [];
     container.innerHTML = "";
+    console.log("updating array");
     createArray(arrSize);
 }
 
