@@ -15,7 +15,6 @@ function updateArraySizeDisplay() {
     arrSize = parseInt(arraySizeSlider.value);
     arr = [];
     container.innerHTML = "";
-    console.log("updating array");
     createArray(arrSize);
 }
 
@@ -26,7 +25,7 @@ function updateSortSpeedDisplay() {
     sortingSpeed = parseInt(sortSpeedSlider.value);
 }
 
-// Button toggle logic
+// Buttons toggle logic
 function disableButtons() {
     document.getElementById("arraySize").disabled = true;
     const buttons = document.querySelectorAll("button");
@@ -66,20 +65,20 @@ function displayArr(arr, colour) {
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
-        bar.style.width = (110 - arrSize) + "px";
+        bar.style.width = (1500 - arrSize) + "px";
         bar.style.backgroundColor = colour;
         bar.style.margin = "1px";
         container.appendChild(bar);
     }
 }
 
-// Display bar logic
-function displayBar(arr, index1 = null, index2 = null) {
+// Highlight bar logic
+function highlightBar(arr, index1, index2) {
     container.innerHTML = "";
     for (let i = 0; i < arr.length; i++) {
         const bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "%";
-        bar.style.width = (110 - arrSize) + "px";
+        bar.style.width = (1500 - arrSize) + "px";
         bar.style.margin = "1px";
         
         if (i === index1 || i === index2) {
@@ -106,7 +105,7 @@ function isSorted(arr) {
 async function shuffle(arr) {
     displayArr(arr, "red");
     await sleep(sortingSpeed);
-    
+
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -120,8 +119,6 @@ async function bogoSort() {
     disableButtons();
 
     copyArr = arr.slice();
-    console.log("Bogosorting");
-    console.log(copyArr);
     sortIndicator.innerHTML = "Sorting...";
 
     while (!isSorted(copyArr)) {
@@ -130,20 +127,13 @@ async function bogoSort() {
 
     displayArr(copyArr, "black");
     sortCompletedMessage();
-
     enableButtons();
-    return copyArr;
 }
-
-// console.log("Bogo-sorted array:", bogoSort(arr));
-
 
 // Stalin Sort Logic
 async function stalinSort() {
     disableButtons();
     copyArr = arr.slice();
-    console.log("Stalinsorting");
-    console.log(copyArr);
     sortIndicator.innerHTML = `Sorting...`;
 
     if (copyArr.length === 0) {
@@ -152,7 +142,7 @@ async function stalinSort() {
 
     let i = 1;
     while (i < copyArr.length) {
-        displayBar(copyArr, i, i - 1);
+        highlightBar(copyArr, i, i - 1);
         await sleep(sortingSpeed);
 
         if (copyArr[i] < copyArr[i - 1]) {
@@ -167,18 +157,12 @@ async function stalinSort() {
 
     sortCompletedMessage();
     enableButtons();
-    return copyArr;
 }
-
-// console.log("Stalin-sorted array:", stalinSort(arr));
-
 
 // Bozo sort Logic
 async function bozoSort() {
     disableButtons();
     copyArr = arr.slice();
-    console.log("Bozosorting");
-    console.log(copyArr);
     sortIndicator.innerHTML = `Sorting...`;
 
     while (!isSorted(copyArr)) {
@@ -190,7 +174,7 @@ async function bozoSort() {
             j = Math.floor(Math.random() * copyArr.length);
         } while (i === j);
 
-        displayBar(copyArr, i, j);
+        highlightBar(copyArr, i, j);
         await sleep(sortingSpeed); 
 
         [copyArr[i], copyArr[j]] = [copyArr[j], copyArr[i]];
@@ -201,10 +185,6 @@ async function bozoSort() {
 
     sortCompletedMessage();
     enableButtons();
-    return copyArr;
 }
-
-//console.log("Bozo-sorted array:", bozoSort(arr));
-
 
 createArray(arrSize);
