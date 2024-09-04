@@ -104,12 +104,15 @@ function isSorted(arr) {
 }
 
 async function shuffle(arr) {
+    displayArr(arr, "red");
+    await sleep(sortingSpeed);
+    
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 
-    displayArr(arr, "red");
+    displayArr(arr, "black");
     await sleep(sortingSpeed);
 }
 
